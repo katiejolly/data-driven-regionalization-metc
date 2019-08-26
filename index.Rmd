@@ -207,3 +207,13 @@ knitr::include_graphics("images/cv.png")
 --
 
 * For variables with high levels of uncertainty, the algorithm will often **fail** to find a **feasible** solution
+
+---
+
+## If you want to run this yourself
+<br>
+<br>
+<br>
+Python library **censusmander** on github: https://github.com/geoss/censumander
+
+[Austin example](https://nbviewer.jupyter.org/github/geoss/ACS_Regionalization/blob/master/code/austin.ipynb)
