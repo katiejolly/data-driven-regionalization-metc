@@ -106,19 +106,79 @@ class: center, middle
 
 ---
 
-estimates (block group) map
+<iframe  title="My Map" width="980" height="600" src="images/overlay.html" frameborder="0" allowfullscreen></iframe>
+
 
 ---
 
-estimates (tract) map
+<iframe  title="My Map" width="980" height="600" src="images/count_bg.html" frameborder="0" allowfullscreen></iframe>
 
 ---
 
-margin of error (block group) map
+## Estimate: Percent white
+**Block groups**
+
+```{r echo = FALSE, out.width="500px", fig.align = "center"}
+knitr::include_graphics("images/pct_white_bg.png")
+```
+
 
 ---
 
-margin of error (tracts) map
+## Estimate: Percent white
+**Census tracts**
+
+```{r echo = FALSE, out.width="500px", fig.align = "center"}
+knitr::include_graphics("images/pct_white_tract.png")
+```
+
+---
+## Estimate: Percent white
+**Jolly tracts**
+
+```{r echo = FALSE, out.width="500px", fig.align = "center"}
+knitr::include_graphics("images/pct_white_jt.png")
+```
+
+
+---
+class:center, middle
+
+```{r echo = FALSE, out.width="300px"}
+knitr::include_graphics("images/pct_white_bg.png")
+knitr::include_graphics("images/pct_white_jt.png")
+knitr::include_graphics("images/pct_white_tract.png")
+```
+
+
+---
+
+
+
+```{r echo = FALSE, out.width="500px", fig.align="center"}
+knitr::include_graphics("images/den_pctwhite.png")
+```
+
+
+---
+
+## Comparing precision
+
+```{r echo = FALSE, out.width="350px"}
+
+knitr::include_graphics("images/cv_pct_white_bg.png")
+knitr::include_graphics("images/cv_pct_white_jt.png")
+```
+
+
+---
+
+# Comparing precision
+
+```{r echo= FALSE, out.width="400px", fig.align="center"}
+knitr::include_graphics("images/cv.png")
+```
+
 
 ---
 
@@ -143,3 +203,7 @@ margin of error (tracts) map
 --
 
 * Only works with data that provide a margin of error (i.e. not census)
+
+--
+
+* For variables with high levels of uncertainty, the algorithm will often **fail** to find a **feasible** solution

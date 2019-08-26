@@ -1,0 +1,209 @@
+---
+title: "Data-Driven Regionalization"
+author: "Katie Jolly"
+date: "August 26, 2019"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class: center, middle
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(xaringanthemer)
+duo_accent(
+  primary_color = "#88B14B",
+  secondary_color = "#58C9D4",
+  header_font_google = google_font("Didact Gothic"),
+  text_font_google   = google_font("Lato", "300", "300i"),
+  code_font_google   = google_font("Fira Code")
+)
+```
+
+```{r echo = FALSE}
+knitr::include_graphics("https://www.researchgate.net/publication/272645578/figure/fig1/AS:668932142804999@1536497259519/Hierarchy-of-census-geographic-entities.jpg")
+```
+
+
+---
+
+
+# Data-driven regionalization
+
+[Reducing Uncertainty in the American Community Survey through Data-Driven Regionalization](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0115626) by Seth Spielman and David Folch
+
+<br>
+<br>
+```{r out.width="200px", echo = FALSE}
+      knitr::include_graphics("https://www.colorado.edu/geography/sites/default/files/styles/large_square_thumbnail/public/people/seth_spielman.jpg?itok=1bLYlWA2")
+      knitr::include_graphics("http://geography.fsu.edu/wp-content/uploads/2015/07/david_folch_color-512x512.jpg")
+```
+
+---
+
+```{r echo = FALSE}
+knitr::include_graphics("https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0115626.g001&type=large")
+```
+
+---
+
+# Three main goals
+
+The regionalization algorithm prioritizes three main goals:
+
+* Reduce the margin of error on input variables to meet or exceed a user specified threshold
+
+> Can be global or variable specific
+
+* Avoid grouping dissimilar areas together, i.e., do not break the pattern on the map.
+
+> Minimize intraregion heterogeneity
+
+* Group together as few tracts as necessary to meet user specified data quality thresholds.
+
+> Maximize regions
+
+---
+
+# Algorithm overview
+
+
+**First step**
+
+
+* A unit (block group here) is chosen **at random**
+* Surrounding block groups are added to the region until the error threshold is met
+* This process repeats **thousands of times**
+* We choose the best possible partition, the one with the **most resulting regions**
+
+--
+
+**Second step**
+
+* After we have our partition, we need to improve on the homogeneity goal
+> Remember that homogeneity is not considered in the first phase
+* We swap block groups at random between regions to find the **best solution**
+> It's worth reading the paper if you want to know how this works in practice
+
+---
+
+# DC example
+
+```{r echo = FALSE, fig.align='center', out.width="350px"}
+knitr::include_graphics("https://journals.plos.org/plosone/article/figure/image?size=inline&id=10.1371/journal.pone.0115626.g002")
+```
+
+
+---
+class: center, middle
+
+## In the Twin Cities region
+
+---
+
+<iframe  title="My Map" width="980" height="600" src="images/overlay.html" frameborder="0" allowfullscreen></iframe>
+
+
+---
+
+<iframe  title="My Map" width="980" height="600" src="images/count_bg.html" frameborder="0" allowfullscreen></iframe>
+
+---
+
+## Estimate: Percent white
+**Block groups**
+
+```{r echo = FALSE, out.width="500px", fig.align = "center"}
+knitr::include_graphics("images/pct_white_bg.png")
+```
+
+
+---
+
+## Estimate: Percent white
+**Census tracts**
+
+```{r echo = FALSE, out.width="500px", fig.align = "center"}
+knitr::include_graphics("images/pct_white_tract.png")
+```
+
+---
+## Estimate: Percent white
+**Jolly tracts**
+
+```{r echo = FALSE, out.width="500px", fig.align = "center"}
+knitr::include_graphics("images/pct_white_jt.png")
+```
+
+
+---
+class:center, middle
+
+```{r echo = FALSE, out.width="300px"}
+knitr::include_graphics("images/pct_white_bg.png")
+knitr::include_graphics("images/pct_white_jt.png")
+knitr::include_graphics("images/pct_white_tract.png")
+```
+
+
+---
+
+
+
+```{r echo = FALSE, out.width="500px", fig.align="center"}
+knitr::include_graphics("images/den_pctwhite.png")
+```
+
+
+---
+
+## Comparing precision
+
+```{r echo = FALSE, out.width="350px"}
+
+knitr::include_graphics("images/cv_pct_white_bg.png")
+knitr::include_graphics("images/cv_pct_white_jt.png")
+```
+
+
+---
+
+# Comparing precision
+
+```{r echo= FALSE, out.width="400px", fig.align="center"}
+knitr::include_graphics("images/cv.png")
+```
+
+
+---
+
+# Pitfalls/unexpected outcomes
+
+* Inputs **matter**, having many input areas with high margins of error can result in relatively very few regions
+
+> For example, we got only about half as many regions from the 7 county area compared to the MUSA
+
+--
+
+* We aren't sure why, but the regions can mask some correlations that we know exist
+
+--
+
+* It takes a while to run (but this isn't that unexpected)
+
+--
+
+* For proportions, you need both the numerator and denominator independently
+
+--
+
+* Only works with data that provide a margin of error (i.e. not census)
+
+--
+
+* For variables with high levels of uncertainty, the algorithm will often **fail** to find a **feasible** solution
