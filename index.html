@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Data-Driven Regionalization</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Katie Jolly" />
+    <meta name="date" content="2019-08-26" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data-Driven Regionalization
+### Katie Jolly
+### August 26, 2019
+
+---
+
+class: center, middle
+
+
+
+![](https://www.researchgate.net/publication/272645578/figure/fig1/AS:668932142804999@1536497259519/Hierarchy-of-census-geographic-entities.jpg)&lt;!-- --&gt;
+
+
+---
+
+
+# Data-driven regionalization
+
+[Reducing Uncertainty in the American Community Survey through Data-Driven Regionalization](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0115626) by Seth Spielman and David Folch
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;img src="https://www.colorado.edu/geography/sites/default/files/styles/large_square_thumbnail/public/people/seth_spielman.jpg?itok=1bLYlWA2" width="200px" /&gt;&lt;img src="http://geography.fsu.edu/wp-content/uploads/2015/07/david_folch_color-512x512.jpg" width="200px" /&gt;
+
+---
+
+![](https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0115626.g001&amp;type=large)&lt;!-- --&gt;
+
+---
+
+# Three main goals
+
+The regionalization algorithm prioritizes three main goals:
+
+* Reduce the margin of error on input variables to meet or exceed a user specified threshold
+
+&gt; Can be global or variable specific
+
+* Avoid grouping dissimilar areas together, i.e., do not break the pattern on the map.
+
+&gt; Minimize intraregion heterogeneity
+
+* Group together as few tracts as necessary to meet user specified data quality thresholds.
+
+&gt; Maximize regions
+
+---
+
+# Algorithm overview
+
+
+**First step**
+
+
+* A unit (block group here) is chosen **at random**
+* Surrounding block groups are added to the region until the error threshold is met
+* This process repeats **thousands of times**
+* We choose the best possible partition, the one with the **most resulting regions**
+
+--
+
+**Second step**
+
+* After we have our partition, we need to improve on the homogeneity goal
+&gt; Remember that homogeneity is not considered in the first phase
+* We swap block groups at random between regions to find the **best solution**
+&gt; It's worth reading the paper if you want to know how this works in practice
+
+---
+
+# DC example
+
+&lt;img src="https://journals.plos.org/plosone/article/figure/image?size=inline&amp;id=10.1371/journal.pone.0115626.g002" width="350px" style="display: block; margin: auto;" /&gt;
+
+
+---
+class: center, middle
+
+## In the Twin Cities region
+
+---
+
+estimates (block group) map
+
+---
+
+estimates (tract) map
+
+---
+
+margin of error (block group) map
+
+---
+
+margin of error (tracts) map
+
+---
+
+# Pitfalls/unexpected outcomes
+
+* Inputs **matter**, having many input areas with high margins of error can result in relatively very few regions
+
+&gt; For example, we got only about half as many regions from the 7 county area compared to the MUSA
+
+--
+
+* We aren't sure why, but the regions can mask some correlations that we know exist
+
+--
+
+* It takes a while to run (but this isn't that unexpected)
+
+--
+
+* For proportions, you need both the numerator and denominator independently
+
+--
+
+* Only works with data that provide a margin of error (i.e. not census)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
